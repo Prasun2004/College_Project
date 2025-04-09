@@ -115,7 +115,15 @@ export function Login() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button onClick={(e) => handleChange(e, "signUp")}>SignUp</Button>
+              <Button disabled={registerLoading} onClick={(e) => handleChange(e, "signUp")}>
+                 {
+                  registerLoading ?(
+                    <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin"/> please wait
+                   </>
+                  ):"register"
+                 }
+              </Button>
             </CardFooter>
           </Card>
         </TabsContent>
@@ -150,7 +158,15 @@ export function Login() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button onClick={(e) => handleChange(e, "login")}>Login</Button>
+              <Button disabled={loginLoading} onClick={(e) => handleChange(e, "login")}>
+               {
+                loginLoading ?(
+                  <>
+                   <Loader2 className="mr-2 h-4 w-4 animate-spin"/> please wait
+                  </>
+                ) : "Login"
+               }  
+              </Button>
             </CardFooter>
           </Card>
         </TabsContent>
