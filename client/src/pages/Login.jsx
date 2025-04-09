@@ -14,6 +14,7 @@ import {
   useLoginUserMutation,
   useRegisterUserMutation,
 } from "@/features/api/authApi";
+import { Loader2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -55,9 +56,11 @@ export function Login() {
     }
   };
 
-  const handleRegistration =async(type)=>{
-     const inputData= type =="signup" ? signUpInput :logINInput;
-     const action =type=="signup"? registerUser :loginUser;
+  const handleRegistration =async(e, type)=>{
+     console.log(e);
+     const inputData= type =="signUp" ? signUpInput :logINInput;
+     console.log(inputData);
+     const action =type=="signUp"? registerUser :loginUser;
      await action (inputData);
   }
 
@@ -131,7 +134,7 @@ export function Login() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button disabled={registerLoading} onClick={(e) => handleChange(e, "signUp")}>
+              <Button disabled={registerLoading} onClick={(e) => handleRegistration(e, "signUp")}>
                  {
                   registerLoading ?(
                     <>
@@ -174,7 +177,7 @@ export function Login() {
               </div>
             </CardContent>
             <CardFooter>
-              <Button disabled={loginLoading} onClick={(e) => handleChange(e, "login")}>
+              <Button disabled={loginLoading} onClick={(e) => handleRegistration(e, "login")}>
                {
                 loginLoading ?(
                   <>
