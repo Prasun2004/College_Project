@@ -14,7 +14,8 @@ import {
   useLoginUserMutation,
   useRegisterUserMutation,
 } from "@/features/api/authApi";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export function Login() {
   const [signUpInput, setSignUpInput] = useState({
@@ -65,6 +66,21 @@ export function Login() {
     const inputData = type === "signUp" ? signUpInput : logINInput;
     console.log(inputData);
   };
+
+  useEffect(()=>{
+       if (registerSuccess && registerData) {
+         toast.success(registerData.message || "signup successfully");
+       }
+       if (loginSuccess && loginData) {
+         toast.success(loginData.message || "login successful");
+       }
+       if (registerError) {
+         toast.error(registerData.data.message || "signup fail");
+       }
+       if (loginError) {
+        toast.error(loginData.data.message || "login fail");
+       }
+  },[loginLoading,registerLoading,loginData,registerData,loginError,registerError]);
 
   return (
     <div className="flex items-center w-full justify-center align-center">
