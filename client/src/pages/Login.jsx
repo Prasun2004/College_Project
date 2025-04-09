@@ -54,6 +54,12 @@ export function Login() {
     }
   };
 
+  const handleRegistration =async(type)=>{
+     const inputData= type =="signup" ? signUpInput :logINInput;
+     const action =type=="signup"? registerUser :loginUser;
+     await action (inputData);
+  }
+
   const handleChange = (e, type) => {
     console.log(signUpInput.name);
     const inputData = type === "signUp" ? signUpInput : logINInput;
