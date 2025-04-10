@@ -102,7 +102,7 @@ const MobileNavbar =()=>{
           </Button>
         </SheetTrigger>
         <SheetContent className="flex flex-col">
-          <SheetHeader className="flex fllex-row items-center justify-between mt-2">
+          <SheetHeader className="flex flex-row items-center justify-between mt-2">
             <SheetTitle>LMS</SheetTitle>
             <DarkMode/>
           </SheetHeader>
