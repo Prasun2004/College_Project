@@ -26,6 +26,7 @@ import {
 import { Label } from './ui/label';
 import { Input } from './ui/input';
 import { Separator } from '@radix-ui/react-dropdown-menu';
+import { Link } from 'react-router-dom';
 //   import { Separator } from "@radix-ui/react-dropdown-menu";
 //   import { Link, useNavigate } from "react-router-dom";
 //   import { useLogoutUserMutation } from "@/features/api/authApi";
@@ -58,7 +59,9 @@ export default function Navbar() {
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem>
+            <Link to="my-learing">
             My Learing
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
             Edit Profile
