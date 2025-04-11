@@ -14,19 +14,26 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Loader2 } from 'lucide-react'
 import SingleCourse from './SingleCourse'
+import { useLoadUserQuery } from '@/features/api/authApi'
 
 export default function Profile() {
-  
-    const [isLoading,setIsLoading]=useState(true);
+   
+    const {data,isLoading}= useLoadUserQuery();
+    console.log(data);
+   // const [isLoading,setIsLoading]=useState(true);
     const enrollCourse=[1,2];
 
+    if (isLoading) {
+        return <h1>Profile loading....</h1>
+    }
+   const  {user} =data;
   return (
     <div className='max-w-4xl mx-auto px-4 my-24'>
       <h1 className='font-bold text-2xl text-center md:text-left'>Profile</h1>
       <div className='flex flex-col md:flex-row items-center md:items:start gap-8 my-5'>
         <div className='flex flex-col items-center'>
         <Avatar className="h-24 w-24 md:h-32 w-32 mb-4">
-      <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+      <AvatarImage src={user.photoUrl || "https://github.com/shadcn.png"} alt="@shadcn" />
       <AvatarFallback>CN</AvatarFallback>
     </Avatar>
         </div>
@@ -34,19 +41,19 @@ export default function Profile() {
             <div className='mb-2'>
                 <h1 className='font-semibold text-gray-900 dark:text-gray-100 '>
                     Name:
-                    <span className='font-normal text-gray-700 dark:text-gray-200 ml-2'>tyuio</span>
+                    <span className='font-normal text-gray-700 dark:text-gray-200 ml-2'>{user.name}</span>
                 </h1>
             </div>
             <div className='mb-2'>
                 <h1 className='font-semibold text-gray-900 dark:text-gray-100 '>
                     email:
-                    <span className='font-normal text-gray-700 dark:text-gray-200 ml-2'>tyuio</span>
+                    <span className='font-normal text-gray-700 dark:text-gray-200 ml-2'>{user.email}</span>
                 </h1>
             </div>
             <div className='mb-2'>
                 <h1 className='font-semibold text-gray-900 dark:text-gray-100 '>
-                     Roll:
-                    <span className='font-normal text-gray-700 dark:text-gray-200 ml-2'>tyuio</span>
+                     Role:
+                    <span className='font-normal text-gray-700 dark:text-gray-200 ml-2'>{user.role}</span>
                 </h1>
             </div>
             <Dialog>
@@ -94,8 +101,8 @@ export default function Profile() {
         <h1 className='font-medium text-lg'>Cousrse you are enrolled</h1>
         <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 my-5'>
            {
-            enrollCourse.length===0 ? <h1>you have no enroll course</h1> :(
-                enrollCourse.map((course,index)=><SingleCourse key={index}/>)
+            user.enrolledCourses.length===0 ? <h1>you have no enroll course</h1> :(
+                user.enrolledCourses.map((course,index)=><SingleCourse course={course} key={course._id}/>)
             )
            }
         </div>

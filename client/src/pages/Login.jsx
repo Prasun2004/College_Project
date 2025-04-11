@@ -81,9 +81,11 @@ export function Login() {
          navigate("/");
        }
        if (registerError) {
+        console.log(registerError);
          toast.error(registerData.data.message || "signup fail");
        }
        if (loginError) {
+        console.log(loginError);
         toast.error(loginData.data.message || "login fail");
        }
   },[loginLoading,registerLoading,loginData,registerData,loginError,registerError]);

@@ -88,7 +88,17 @@ export const logout =async(req,res)=>{
 export const getuserProfile=async(req,res)=>{
      try {
         const userId=req.id;
-        const user =await User.findOne({userId});
+        const user =await User.findById(userId).select("-password");
+        if (!user) {
+            return res.status(404).json({
+                message:"profile not found",
+                success:false
+            })
+        }
+        return res.status(200).json({
+            success:true,
+            user
+        })
      } catch (error) {
         console.log(error);
         return res.status(500).json({
@@ -96,4 +106,29 @@ export const getuserProfile=async(req,res)=>{
             message:"failed  to get user profile"
         })
      }
+}
+
+export const updateProfile =async(req,res)=>{
+    try {
+        const userId=req.id;
+        const {name}=req.body;
+        const profilePhoto =req.file;
+
+        const user =await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({
+                message:"user not found",
+                success:false
+            })
+        }
+    
+        const updateData ={name,photoUrl};
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success:false,
+            message:"failed  to update user profile"
+        })
+    }
 }
