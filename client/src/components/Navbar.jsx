@@ -64,7 +64,9 @@ export default function Navbar() {
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
+            <Link to="profile">
             Edit Profile
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
             Log Out
