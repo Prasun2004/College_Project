@@ -69,3 +69,31 @@ export const login =async(req,res)=>{
         })
     }
 }
+
+export const logout =async(req,res)=>{
+    try {
+        return res.status(200).cookie("token","",{maxAge:0}).json({
+            success:true,
+            message:"logout successful"
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success:false,
+            message:"failed  to logout"
+        })
+    }
+}
+
+export const getuserProfile=async(req,res)=>{
+     try {
+        const userId=req.id;
+        const user =await User.findOne({userId});
+     } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            success:false,
+            message:"failed  to get user profile"
+        })
+     }
+}
