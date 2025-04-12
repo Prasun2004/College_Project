@@ -14,15 +14,26 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Loader2 } from 'lucide-react'
 import SingleCourse from './SingleCourse'
-import { useLoadUserQuery } from '@/features/api/authApi'
+import { useLoadUserQuery, useUpdateUserMutation } from '@/features/api/authApi'
 
 export default function Profile() {
-   
+    const [name,setName]=useState("");
+    const [photoUrl,setPhottoUrl]=useState("");
+    const [email,setEmail]=useState("");
     const {data,isLoading}= useLoadUserQuery();
     console.log(data);
-   // const [isLoading,setIsLoading]=useState(true);
     const enrollCourse=[1,2];
+    const [updateUser,{data:updateData,isLoading:updateisLoading,error}] = useUpdateUserMutation();
 
+    console.log(updateUser);
+    const onchangehandler =(e)=>{
+        const file=e.target.file[0];
+    }
+
+    const updateUserhandler=()=>{
+
+    }
+    
     if (isLoading) {
         return <h1>Profile loading....</h1>
     }
@@ -82,7 +93,7 @@ export default function Profile() {
           </div>
         </div>
         <DialogFooter>
-          <Button >
+          <Button disabled={isLoading} onClick={updateUserhandler} >
           {isLoading ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" /> Please
