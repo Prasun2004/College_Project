@@ -86,15 +86,17 @@ export default function Navbar() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          Dashboard
-        </DropdownMenuItem>
+        {user.role==="instructor" && 
+         <DropdownMenuItem>
+         Dashboard
+       </DropdownMenuItem>
+        }
       </DropdownMenuContent>
     </DropdownMenu>
             ) :
             <div className='flex items-center gap-2'>
-                <Button variant="outline">Login</Button>
-                <Button>SignUp</Button>
+                <Button variant="outline" onClick={()=>navigate("/Login")}>Login</Button>
+                <Button onClick={()=>navigate("/Login")} >SignUp</Button>
             </div>
            }
            <DarkMode/> 
