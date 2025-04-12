@@ -32,14 +32,15 @@ import { Input } from './ui/input';
   import { useSelector } from "react-redux";
 
 export default function Navbar() {
-    const [user,setUser]=useState(true);
+   // const [user,setUser]=useState(true);
     const [logoutUser, {data,isSuccess}] = useLogoutUserMutation();
     const navigate =useNavigate();
+     const {user}=useSelector(store =>store.auth); 
 
     const logouthandler = async()=>{
        await logoutUser();
     }
-    
+    console.log(user);
     useEffect(()=>{
        if (isSuccess) {
           console.log(isSuccess);
@@ -62,7 +63,7 @@ export default function Navbar() {
                 <DropdownMenu>
       <DropdownMenuTrigger asChild>
       <Avatar>
-      <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+      <AvatarImage src={ user.photoUrl || "https://github.com/shadcn.png"} alt="@shadcn" />
       <AvatarFallback>CN</AvatarFallback>
     </Avatar>
       </DropdownMenuTrigger>
