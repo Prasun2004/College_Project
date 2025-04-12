@@ -1,5 +1,5 @@
 import { Menu, School } from 'lucide-react'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from './ui/button';
 import {
     DropdownMenu,
@@ -25,17 +25,29 @@ import {
   } from "./ui/sheet";
 import { Label } from './ui/label';
 import { Input } from './ui/input';
-import { Separator } from '@radix-ui/react-dropdown-menu';
-import { Link } from 'react-router-dom';
-//   import { Separator } from "@radix-ui/react-dropdown-menu";
-//   import { Link, useNavigate } from "react-router-dom";
-//   import { useLogoutUserMutation } from "@/features/api/authApi";
-//   import { toast } from "sonner";
-//   import { useSelector } from "react-redux";
+   import { Separator } from "@radix-ui/react-dropdown-menu";
+  import { Link, useNavigate } from "react-router-dom";
+  import { useLogoutUserMutation } from "@/features/api/authApi";
+   import { toast } from "sonner";
+  import { useSelector } from "react-redux";
 
 export default function Navbar() {
     const [user,setUser]=useState(true);
-   
+    const [logoutUser, {data,isSuccess}] = useLogoutUserMutation();
+    const navigate =useNavigate();
+
+    const logouthandler = async()=>{
+       await logoutUser();
+    }
+    
+    useEffect(()=>{
+       if (isSuccess) {
+          console.log(isSuccess);
+          toast.success("log out successful");
+          navigate("/login");
+       }
+    },[isSuccess])
+
   return (
     <div className='h-16 dark:bg-[#0A0A0A] bg-white border-b dark:border-b-gray-800 border-b-gray-200 fixed top-0 left-0 right-0 duration-300 z-index-10'>
        {/* desktop for */}
@@ -68,7 +80,7 @@ export default function Navbar() {
             Edit Profile
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={logouthandler}>
             Log Out
           </DropdownMenuItem>
         </DropdownMenuGroup>

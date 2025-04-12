@@ -114,7 +114,7 @@ export const updateProfile =async(req,res)=>{
         const userId=req.id;
         const {name}=req.body;
         const profilePhoto =req.file;
-
+       // console.log(profilePhoto,"117");
         const user =await User.findById(userId);
         if (!user) {
             return res.status(404).json({
@@ -125,10 +125,13 @@ export const updateProfile =async(req,res)=>{
 
         if (user.photoUrl) {
             const publicId=user.photoUrl.split("/").pop().split(".")[0];
+            console.log(publicId);
             deleteMedia(publicId);
         }
         const cloudResponse= await uploadMedia(profilePhoto.path);
-        const {seceure_url:photoUrl} =cloudResponse;
+        console.log(cloudResponse,"132");
+        const photoUrl =cloudResponse.secure_url;
+       // console.log(photoUrl);
         const updateData ={name,photoUrl};
         const updateUser=await User.findByIdAndUpdate(userId,updateData,{new:true}).select("-password");
 
