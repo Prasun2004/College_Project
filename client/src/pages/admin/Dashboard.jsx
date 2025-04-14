@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function Dashboard() {
   return (
-    <div className='mt-20 m1-10 grid gap-6 grid-cols-1 sm:grid-cls-2 sm:grid-cols-3 lg:grid-cols-4'>
+    <div className=' grid gap-6 grid-cols-1 sm:grid-cls-2 sm:grid-cols-3 lg:grid-cols-4'>
       <Card>
         <CardHeader>
             Totals Sales

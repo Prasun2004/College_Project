@@ -52,8 +52,12 @@ function App() {
             element:<Dashboard/>
             },
             {
-              path:"courses",
+              path:"course",
               element:<CourseTable/>
+            },
+            {
+              path:"course/create",
+              element:<AddCourse/>
             }
           ],
         }
