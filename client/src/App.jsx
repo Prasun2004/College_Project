@@ -11,6 +11,10 @@ import { RouterProvider } from 'react-router'
 import Courses from './pages/student/Coures'
 import MyLearing from './pages/student/MyLearing'
 import Profile from './pages/student/Profile'
+import Sidebar from './pages/admin/Sidebar'
+import Dashboard from './pages/admin/Dashboard'
+import AddCourse from './pages/admin/course/AddCourse'
+import CourseTable from './pages/admin/course/CourseTable'
 
 function App() {
   const appRouter=createBrowserRouter([
@@ -38,8 +42,23 @@ function App() {
         {
           path:"profile",
           element:<Profile/>
+        },
+        {
+          path:"admin",
+          element:<Sidebar/>,
+          children:[
+            {
+            path:"dashboard",
+            element:<Dashboard/>
+            },
+            {
+              path:"courses",
+              element:<CourseTable/>
+            }
+          ],
         }
       ],
+      
     },
   ]);
  
