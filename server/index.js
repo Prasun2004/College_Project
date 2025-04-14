@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 
 import userRoute from "./routes/userRoutes.js";
+import courseRoute from "./routes/courseRoutes.js";
 
 dotenv.config({});
 
@@ -28,6 +29,7 @@ const connectDB=async()=>{
 connectDB();
 
 app.use("/user",userRoute);
+app.use("/course",courseRoute);
 
 app.listen(process.env.PORT,()=>{
     console.log("server start ");
