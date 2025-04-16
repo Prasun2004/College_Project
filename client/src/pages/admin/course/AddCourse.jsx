@@ -37,6 +37,7 @@ export default function AddCourse() {
       if (isSuccess) {
         console.log(data);
         toast.success("Successful create");
+        navigate("/admin/course");
       }
       if (error) {
         console.log(error),
