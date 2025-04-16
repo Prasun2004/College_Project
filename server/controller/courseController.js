@@ -1,6 +1,7 @@
 import { Course } from "../models/coursemodels.js";
 
 export const createCourse =async(req,res)=>{
+    //console.log(req,res);
     try {
         const {courseTitle,category}=req.body;
         if(!courseTitle || !category){

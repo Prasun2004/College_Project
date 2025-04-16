@@ -23,7 +23,7 @@ const courseSchema =new mongoose.Schema({
     },
     coursePrice :{
         type:String,
-        required:true
+       // required:true
     },
     courseThumbile :{
         type:String,
