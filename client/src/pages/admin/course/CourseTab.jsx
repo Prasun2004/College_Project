@@ -5,6 +5,7 @@ import { Label } from '@/components/ui/label'
 import React from 'react'
 
 export default function CourseTab() {
+   const isPublish =true;
   return (
     <Card>
     <CardHeader className='flex flex-row jutify-between'>
@@ -17,7 +18,7 @@ export default function CourseTab() {
         <div className='space-x-2'>
             <Button variant="outline">
                {
-                isPublish ? "unPublish" :"Publish"
+                isPublish ? "UnPublish" :"Publish"
                }
             </Button>
             <Button>
