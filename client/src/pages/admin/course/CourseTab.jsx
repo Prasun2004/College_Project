@@ -47,7 +47,11 @@ export default function CourseTab() {
            </div>
            <div>
              <Label>Description</Label>
-              <RichTextEditor/>
+             <Input
+              type='text'
+              name='description'
+              placeholder="ex. fullstack developer"
+             />
            </div>
         </div>
     </CardContent>
