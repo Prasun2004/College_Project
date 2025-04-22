@@ -1,3 +1,4 @@
+import RichTextEditor from '@/components/RichTextEditor'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -29,11 +30,24 @@ export default function CourseTab() {
     <CardContent>
         <div className='span-y-4'>
            <div>
-             <Label>Title</Label>
+             <Label>Course Title</Label>
              <Input
               type='text'
+              name='CourseTitle'
               placeholder="ex. fullstack developer"
              />
+           </div>
+           <div>
+             <Label>Sub Title</Label>
+             <Input
+              type='text'
+              name='subTitle'
+              placeholder="ex. fullstack developer"
+             />
+           </div>
+           <div>
+             <Label>Description</Label>
+              <RichTextEditor/>
            </div>
         </div>
     </CardContent>
