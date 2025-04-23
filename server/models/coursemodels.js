@@ -25,7 +25,7 @@ const courseSchema =new mongoose.Schema({
         type:String,
        // required:true
     },
-    courseThumbile :{
+    courseThumbnail :{
         type:String,
         //required:true
     },

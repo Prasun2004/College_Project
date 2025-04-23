@@ -4,13 +4,22 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { useEditCourseMutation } from '@/features/api/courseApi'
 import { Loader2 } from 'lucide-react'
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'sonner'
 
 export default function CourseTab() {
    const isPublish =true;
-   const isLoading=false;
+   //const isLoading=false;
+   
+   const [editCourse,{data,isLoading,isSuccess,error}]=useEditCourseMutation();
+
+   console.log(data);
+
+   const params =useParams();
+   const courseId=params.courseId;
 
    const [input,setInput]=useState({
       courseTitle:"",
@@ -51,10 +60,30 @@ export default function CourseTab() {
      }
    };
 
-   const updateCourseHandler =()=>{
-     console.log(image);
+   const updateCourseHandler = async()=>{
+     
+     const formData=new FormData();
+     
+    formData.append("courseTitle", input.courseTitle);
+    formData.append("subTitle", input.subTitle);
+    formData.append("description", input.description);
+    formData.append("category", input.category);
+    formData.append("courseLevel", input.courseLevel);
+    formData.append("coursePrice", input.coursePrice);
+    formData.append("courseThumbnail", input.courseThumbnail);
+
+    await editCourse({ formData, courseId });
    }
 
+   useEffect(()=>{
+    if (isSuccess) {
+      console.log(isSuccess);
+      toast.success("successfully create");
+      if (error) {
+        toast.error("fail to update");
+      }
+    }
+   },[isSuccess,error])
 
   return (
     <Card>
@@ -82,7 +111,7 @@ export default function CourseTab() {
              <Label>Course Title</Label>
              <Input
               type='text'
-              name='CourseTitle'
+              name='courseTitle'
               value={input.courseTitle}
               onChange={changeEventHandler}
               placeholder="ex. fullstack developer"
@@ -99,7 +128,14 @@ export default function CourseTab() {
              />
            </div>
            <div>
-             <RichTextEditor input={input} setInput={setInput}/>
+           <Label>Description</Label>
+             <Input
+              type='text'
+              name='description'
+              value={input.description}
+              onChange={changeEventHandler}
+              placeholder="ex. fullstack developer"
+             />
            </div>
            <div className='flex items-center gap-5'>
             <div>
