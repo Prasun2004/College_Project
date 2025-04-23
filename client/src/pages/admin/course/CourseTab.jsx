@@ -49,7 +49,12 @@ export default function CourseTab() {
         }
         fileReader.readAsDataURL(file);
      }
+   };
+
+   const updateCourseHandler =()=>{
+     console.log(image);
    }
+
 
   return (
     <Card>
@@ -170,7 +175,7 @@ export default function CourseTab() {
             </div>
             <div>
               <Button variant="outline" onClick={()=>navigate("/admin/course")}>Cancel</Button>
-              <Button disabled={isLoading}>
+              <Button disabled={isLoading} onClick={updateCourseHandler}>
                 {
                   isLoading ? (
                       <>
