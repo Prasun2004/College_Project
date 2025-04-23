@@ -27,18 +27,20 @@ export const courseApi = createApi({
             providesTags:['Refetch_Creator_Course'],
         }),
         editCourse :builder.mutation({
-            query:(formData,coursId)=>({
-               url: `/${coursId}`,
+            query:({formData,courseId})=>({
+               url: `/${courseId}`,
                method:"PUT",
                body:formData
             }),
+            invalidatesTags:['Refetch_Creator_Course'],
         }),
+
         getCourseById:builder.query({
             query:(courseId)=>({
                 url:`/${courseId}`,
                 method:"GET"    
-            })
-        })
+            }),
+        }),
     }),
 });
 

@@ -1,5 +1,4 @@
 import express from "express";
-import { getuserProfile, login, logout, register, updateProfile } from "../controller/userController.js";
 import isAuthenticated from "../middlewares/Authinticate.js";
 import upload from "../utils/multer.js";
 import { createCourse, editCourse, getCourseById, getCreatorCourse } from "../controller/courseController.js";

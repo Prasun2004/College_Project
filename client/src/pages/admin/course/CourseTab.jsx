@@ -1,4 +1,4 @@
-import RichTextEditor from '@/components/RichTextEditor'
+
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -38,7 +38,7 @@ export default function CourseTab() {
 
    const navigate =useNavigate();
 
-   const {data:coursebyData,isLoading:coursebyLoading} =useGetCourseByIdQuery(courseId);
+   const {data:coursebyData,isLoading:coursebyLoading} =useGetCourseByIdQuery(courseId,{refetchOnMountOrArgChange:true});
 
    console.log(coursebyData);
 
@@ -69,7 +69,7 @@ export default function CourseTab() {
 
    const updateCourseHandler = async()=>{
      
-     const formData=new FormData();
+    const formData=new FormData();
      
     formData.append("courseTitle", input.courseTitle);
     formData.append("subTitle", input.subTitle);
@@ -78,8 +78,9 @@ export default function CourseTab() {
     formData.append("courseLevel", input.courseLevel);
     formData.append("coursePrice", input.coursePrice);
     formData.append("courseThumbnail", input.courseThumbnail);
+    
     console.log(input);
-    await editCourse(  formData );
+    await editCourse(  {formData,courseId} );
    }
 
    useEffect(()=>{
@@ -106,6 +107,10 @@ export default function CourseTab() {
       courseThumbnail:""
       })
    },[course])
+
+   if (coursebyLoading) {
+     return <Loader2 className='h-4 w-4 animate-spin'/>
+   }
 
   return (
     <Card>

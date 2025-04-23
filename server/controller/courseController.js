@@ -60,22 +60,23 @@ export const editCourse =async(req,res)=>{
         const courseId=req.params.courseId;
        
         const {courseTitle, subTitle,description,category,courseLevel,coursePrice} =req.body; 
-    
+        
+       
         const thumbnail=req.file;
     
         let course =await Course.findById(courseId);
-        console.log(course);
-        if (course) {
+        
+        if (!course) {
             return res.status(404).json({
                 message:"course not found",
-                success:false
+                
             })
         };
         let courseThumbnail;
 
         if (thumbnail) {
             if (course?.courseThumbnail) {
-                const publicId=course.courseThumbnail.spilt("/").pop().spilt(".")[0];
+                const publicId=course.courseThumbnail.split("/").pop().split(".")[0];
                 await deleteMedia(publicId);
             }
 
@@ -90,7 +91,7 @@ export const editCourse =async(req,res)=>{
         return res.status(200).json({
             course,
             message:"course update successfully",
-            success:true
+           
         })
 
     } catch (error) {
@@ -105,12 +106,12 @@ export const editCourse =async(req,res)=>{
 export const getCourseById =async(req,res)=>{
    
     try {
-        const courseId =req.params.courseId;
-        console.log(req.params.courseId);
-        const course=Course.findById(courseId);
-        console.log(course);
+        
+        
+        const course= await Course.findById(req.params.courseId);
+        // console.log(course);
 
-        if (course) {
+        if (!course) {
             return res.status(404).json({
                 message:"course not found",
                 success:false
@@ -120,7 +121,7 @@ export const getCourseById =async(req,res)=>{
         return res.status(200).json({
             course,
             message:"course  found",
-            success:true
+            
         });
     } catch (error) {
         console.log(error);
