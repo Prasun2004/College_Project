@@ -33,15 +33,15 @@ export const createCourse =async(req,res)=>{
 export const getCreatorCourse= async (req,res)=>{
     try {
         const userId =req.id;
-        const courses=await Course.find({creator :userId});
-        if (!courses) {
+        const course=await Course.find({creator :userId});
+        if (!course) {
             return res.status(404).json({
                 courses:[],
                 message :"course not found"
             })
         };
         return res.status(200).json({
-            courses,
+            course,
             message:"course successfully create"
         })
     } catch (error) {
@@ -54,13 +54,17 @@ export const getCreatorCourse= async (req,res)=>{
 }
 
 export const editCourse =async(req,res)=>{
+
     try {
 
         const courseId=req.params.courseId;
+       
         const {courseTitle, subTitle,description,category,courseLevel,coursePrice} =req.body; 
+    
         const thumbnail=req.file;
-        
+    
         let course =await Course.findById(courseId);
+        console.log(course);
         if (course) {
             return res.status(404).json({
                 message:"course not found",
@@ -70,7 +74,7 @@ export const editCourse =async(req,res)=>{
         let courseThumbnail;
 
         if (thumbnail) {
-            if (course.courseThumbnail) {
+            if (course?.courseThumbnail) {
                 const publicId=course.courseThumbnail.spilt("/").pop().spilt(".")[0];
                 await deleteMedia(publicId);
             }
@@ -81,6 +85,7 @@ export const editCourse =async(req,res)=>{
         const updateData={courseTitle, subTitle,description,category,courseLevel,coursePrice,courseThumbnail:courseThumbnail?.secure_url};
         
         course=await Course.findByIdAndUpdate(courseId,updateData,{new:true});
+      //  console.log(course);
 
         return res.status(200).json({
             course,
@@ -94,5 +99,34 @@ export const editCourse =async(req,res)=>{
             message:"fail to create course",
             success:false
         })
+    }
+}
+
+export const getCourseById =async(req,res)=>{
+   
+    try {
+        const courseId =req.params.courseId;
+        console.log(req.params.courseId);
+        const course=Course.findById(courseId);
+        console.log(course);
+
+        if (course) {
+            return res.status(404).json({
+                message:"course not found",
+                success:false
+            }) 
+        };
+
+        return res.status(200).json({
+            course,
+            message:"course  found",
+            success:true
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"fail to get course",
+            success:false
+        }) 
     }
 }
