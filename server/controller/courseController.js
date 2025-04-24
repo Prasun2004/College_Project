@@ -140,9 +140,7 @@ export const createLecture =async(req,res)=>{
         const{lectureTitle} =req.body;
         const {courseId} =req.params;
 
-        console.log(req.body);
-        console.log(req.params);
-
+       
 
         if(!lectureTitle || !courseId){
             return res.status(400).json({
@@ -158,7 +156,7 @@ export const createLecture =async(req,res)=>{
             course.lectures.push(lecture._id);
             await course.save();
         }
-        console.log(course);
+       
         return res.status(201).json({
             course,
             message:"lecture create successful",
@@ -168,6 +166,32 @@ export const createLecture =async(req,res)=>{
         console.log(error);
         return res.status(500).json({
             message:"fail to create lecture",
+            success:false
+        }) 
+    }
+}
+
+export const getCourseLecture =async(req,res)=>{
+    try {
+        const {courseId}=req.params;
+        console.log(courseId);
+        const course =await Course.findById(courseId).populate("lectures");
+
+        console.log(course);
+        if (!course) {
+            return res.status(404).json({
+                message:"course not found",
+            });
+        }
+        return res.status(200).json({
+            lectures:course.lectures,
+            message:"lecture found"
+        });
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"fail to get lecture",
             success:false
         }) 
     }

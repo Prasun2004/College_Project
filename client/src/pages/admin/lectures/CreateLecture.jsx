@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from "@/components/ui/label";
-import { useCreateCourseMutation, useCreateLectureMutation } from '@/features/api/courseApi';
+import {  useCreateLectureMutation, useGetCourseLectureQuery } from '@/features/api/courseApi';
 import { Loader2 } from 'lucide-react';
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
@@ -15,6 +15,10 @@ export default function CreateLecture() {
     const [lectureTitle,setLectureTitle]=useState("");
      
      const [createLecture,{data,isLoading,isSuccess,error}]=useCreateLectureMutation();
+
+     const {data:lectureData,isLoading:lectureLoading}=useGetCourseLectureQuery(courseId);
+
+     console.log(lectureData);
      
      console.log(data);
      const createLectureHandler= async()=>{
