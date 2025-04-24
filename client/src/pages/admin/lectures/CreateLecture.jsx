@@ -1,9 +1,11 @@
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from "@/components/ui/label";
+import { useCreateCourseMutation, useCreateLectureMutation } from '@/features/api/courseApi';
 import { Loader2 } from 'lucide-react';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'sonner';
 
 export default function CreateLecture() {
     const params=useParams();
@@ -11,11 +13,25 @@ export default function CreateLecture() {
     const navigate =useNavigate();
 
     const [lectureTitle,setLectureTitle]=useState("");
-     const isLoading =false;
-
+     
+     const [createLecture,{data,isLoading,isSuccess,error}]=useCreateLectureMutation();
+     
+     console.log(data);
      const createLectureHandler= async()=>{
-        
-     }
+        console.log(lectureTitle);
+         await createLecture({lectureTitle,courseId});
+     } 
+
+     useEffect(()=>{
+        if (isSuccess) {
+            console.log(isLoading);
+            toast.success("create successful");
+        }
+        if (error) {
+            console.log(error);
+            toast.error("fail to create");
+        }
+     },[isSuccess,error])
   return (
     <div className="flex-1 mx-10 ">
       <div className="mb-4">

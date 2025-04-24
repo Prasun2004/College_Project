@@ -3,6 +3,8 @@ import { Lecture } from "../models/lecturemodels.js";
 import { deleteMedia, uploadMedia } from "../utils/cloudinary.js";
 
 export const createCourse =async(req,res)=>{
+
+
     //console.log(req,res);
     try {
         const {courseTitle,category}=req.body;
@@ -138,7 +140,9 @@ export const createLecture =async(req,res)=>{
         const{lectureTitle} =req.body;
         const {courseId} =req.params;
 
-        console.log(req.body, req.params);
+        console.log(req.body);
+        console.log(req.params);
+
 
         if(!lectureTitle || !courseId){
             return res.status(400).json({
