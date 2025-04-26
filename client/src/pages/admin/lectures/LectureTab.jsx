@@ -4,8 +4,9 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Progress } from '@/components/ui/progress'
 import { Switch } from '@/components/ui/switch'
-import { useEditLectureMutation } from '@/features/api/courseApi'
+import { useEditLectureMutation, useGetLectureByIdQuery, useRemoveLectureMutation} from '@/features/api/courseApi'
 import axios from 'axios'
+import { Loader2 } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { toast } from 'sonner'
@@ -27,6 +28,18 @@ export default function LectureTab() {
 
 
     const [editLecture,{data,isLoading,isSuccess,error}]=useEditLectureMutation();
+    const [removeLecture,{isLoading:removeisLoading,isSuccess:removeisSuccess,error:removeError}]=useRemoveLectureMutation(lectureId);
+    const {data:lectureData}=useGetLectureByIdQuery(lectureId);
+
+    const lecture =lectureData?.lecture;
+
+    useEffect(()=>{
+        if (lecture) {
+            setLectureTitle(lecture.lectureTitle);
+            setIsFree(lecture.ispreviewFree);
+            setUploadInfo(lecture.videoInfo);
+        }
+    },[lecture])
     console.log(data);
     const fileChangeHandler=async(e)=>{
         const file =e.target.files[0];
@@ -59,17 +72,31 @@ export default function LectureTab() {
         await editLecture({lectureTitle,videoInfo:uploadInfo,ispreviewFree:isFree,courseId,lectureId});
 
     }
+   
+    const removeLectureHandler =async()=>{
+         await removeLecture(lectureId);
+    }
+
 
     useEffect(()=>{
       if (isSuccess) {
         console.log(isSuccess);
         toast.success("edit successful");
       }
+      if (removeisSuccess) {
+         console.log(removeisSuccess);
+         toast.success("remove successful");
+      }
       if (error) {
         console.log(error);
         toast.error("fail to edit lecture");
       }
-    },[isSuccess,error])
+      if (removeError) {
+         console.log(removeError);
+         toast.error("fail to remove");
+      }
+    },[isSuccess,error,removeError,removeisSuccess])
+
   return (
      <Card>
         <CardHeader>
@@ -78,7 +105,14 @@ export default function LectureTab() {
                 <CardDescription>Make changes and click save</CardDescription>
             </div>
             <div className='flex items-center gap-2'>
-                <Button variant='destructive'>Remove Lecture</Button>
+                <Button variant='destructive' onClick={removeLectureHandler} disabled={removeisLoading}>
+                   {
+                    removeisLoading ? <>
+                     <Loader2 className='mr-2 h-4 w-4 animate-spin'/>
+                     please Wait
+                    </> :"Remove Lecture"
+                   }
+                   </Button>
             </div>
         </CardHeader>
         <CardContent>
@@ -113,8 +147,13 @@ export default function LectureTab() {
                 )
             }
             <div className='mt-4'>
-               <Button onClick={editLectureHandler}>
-                 Update Lecutre
+               <Button onClick={editLectureHandler} disabled={isLoading}>
+                {
+                    isLoading ? <>
+                     <Loader2 className='mr-2 h-4 w-4 animate-spin'/>
+                    please Wait
+                   </> :" Update Lecutre"
+                }
                </Button>
             </div>
         </CardContent>

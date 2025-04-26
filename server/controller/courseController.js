@@ -245,7 +245,7 @@ export const editLecture =async(req,res)=>{
 export const removeLecture=async(req,res)=>{
     try {
         const {lectureId}=req.params;
-        const lecture=Lecture.findByIdAndDelete(lectureId);
+        const lecture=await Lecture.findByIdAndDelete(lectureId);
         if (!lectureId) {
             return res.status(404).json({
                 message:"lecture not found"
@@ -278,7 +278,8 @@ export const removeLecture=async(req,res)=>{
 export const getLectureById=async(req,res)=>{
     try {
         const {lectureId}=req.params;
-        const lecture=Lecture.findById(lectureId);
+        
+        const lecture=await Lecture.findById(lectureId);
         if (!lectureId) {
             return res.status(404).json({
                 message:"lecture not found"
@@ -288,7 +289,7 @@ export const getLectureById=async(req,res)=>{
             message:"lecture found",
             lecture,
             success:true
-        })
+        });
     } catch (error) {
         console.log(error);
         return res.status(500).json({

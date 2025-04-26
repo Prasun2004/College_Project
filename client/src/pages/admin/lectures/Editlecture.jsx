@@ -7,11 +7,13 @@ import LectureTab from './LectureTab';
 export default function Editlecture() {
     const params =useParams();
     const courseId =params.courseId;
+
+    
   return (
     <div>
     <div className='flex items-center justify-between mb-5'>
        <div className='flex items-center gap-2'>
-           <Link to={`admin/course/${courseId}/lecture`}>
+           <Link to={`/admin/course/${courseId}/lecture`}>
              <Button size='icon' variant='outline' className='rounded-full'>
                 <ArrowLeft size={16}/>
              </Button>
