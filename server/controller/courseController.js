@@ -174,7 +174,7 @@ export const createLecture =async(req,res)=>{
 export const getCourseLecture =async(req,res)=>{
     try {
         const {courseId}=req.params;
-        console.log(courseId);
+        // console.log(courseId);
         const course =await Course.findById(courseId).populate("lectures");
 
         //console.log(course);
@@ -194,5 +194,18 @@ export const getCourseLecture =async(req,res)=>{
             message:"fail to get lecture",
             success:false
         }) 
+    }
+}
+
+const editLecture =async(req,res)=>{
+    try {
+        const {lectureTitle,ispreviewFree,videoInfo}=req.body;
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"fail to edit lecture",
+            success:false
+        })
     }
 }
