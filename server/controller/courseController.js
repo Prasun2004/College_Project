@@ -1,6 +1,6 @@
 import { Course } from "../models/coursemodels.js";
 import { Lecture } from "../models/lecturemodels.js";
-import { deleteMedia, uploadMedia } from "../utils/cloudinary.js";
+import { deleteMedia, deleteVideo, uploadMedia } from "../utils/cloudinary.js";
 
 export const createCourse =async(req,res)=>{
 
@@ -197,14 +197,102 @@ export const getCourseLecture =async(req,res)=>{
     }
 }
 
-const editLecture =async(req,res)=>{
+export const editLecture =async(req,res)=>{
     try {
         const {lectureTitle,ispreviewFree,videoInfo}=req.body;
+        const {courseId,lectureId}=req.params;
+       
+        const lecture =await Lecture.findById(lectureId);
+        if (!lecture) {
+            return res.status(404).json({
+                message:"lacture not found"
+            })
+        };
+        if (lectureTitle) {
+            lecture.lectureTitle=lectureTitle
+        }
+        if (videoInfo) {
+            lecture.videoUrl=videoInfo.videoUrl
+            lecture.publicId=videoInfo.publicId
+        }
+        if (ispreviewFree) {
+            lecture.isPreviewFree=ispreviewFree
+        }
+        
+        await lecture.save();
 
+        const course =await Course.findById(courseId);
+
+        if (course && course.lectures.includes(lecture._id)) {
+            course.lectures.push(lecture._id);
+            await course.save()
+        };
+
+        return res.status(201).json({
+            message:"lecture update succfully",
+            lecture,
+            success:true
+        })
     } catch (error) {
         console.log(error);
         return res.status(500).json({
             message:"fail to edit lecture",
+            success:false
+        })
+    }
+}
+
+export const removeLecture=async(req,res)=>{
+    try {
+        const {lectureId}=req.params;
+        const lecture=Lecture.findByIdAndDelete(lectureId);
+        if (!lectureId) {
+            return res.status(404).json({
+                message:"lecture not found"
+            });
+        }
+
+        if (lecture.publicId) {
+            await deleteVideo(lecture.publicId);
+        }
+        
+        await Course.updateOne(
+            {lectures:lectureId},
+            {$pull:{lectures:lectureId}} // pull use for remove lectureid form course collection
+        );
+
+        return res.status(200).json({
+            message:"lecture remove successful",
+            success:true
+        })
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"fail to remove lecture",
+            success:false
+        })
+    }
+}
+
+export const getLectureById=async(req,res)=>{
+    try {
+        const {lectureId}=req.params;
+        const lecture=Lecture.findById(lectureId);
+        if (!lectureId) {
+            return res.status(404).json({
+                message:"lecture not found"
+            });
+        }
+        return res.status(201).json({
+            message:"lecture found",
+            lecture,
+            success:true
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"fail to get lecture by id",
             success:false
         })
     }
