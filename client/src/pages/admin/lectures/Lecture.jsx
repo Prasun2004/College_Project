@@ -2,13 +2,14 @@ import { Edit } from 'lucide-react'
 import React from 'react'
 import { useNavigate,useParams } from 'react-router-dom'
 
+
 export default function Lecture({lecture,courseId,index}) {
-    const params=useParams();
-    const courseid=params.courseId;
-    console.log(courseid);
+   
+   
+   
     const navigate=useNavigate();
     const goToUpdateLecture = async()=>{
-         navigate(`/admin/course/${courseid}/lecture/${lecture._id}`)
+         navigate(`${lecture._id}`)
     }
   return (
     <div className='flex items-center justify-between bg-[#F7F9FA] dark:bg[#1F1F1F] px-4 py-2 rounded-md my-2'>

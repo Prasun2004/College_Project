@@ -223,11 +223,13 @@ export const editLecture =async(req,res)=>{
 
         const course =await Course.findById(courseId);
 
-        if (course && course.lectures.includes(lecture._id)) {
+        if (course && !course.lectures.includes(lecture._id)) {
             course.lectures.push(lecture._id);
             await course.save()
         };
-
+       
+        console.log(lecture);
+        console.log(course);
         return res.status(201).json({
             message:"lecture update succfully",
             lecture,
@@ -294,6 +296,40 @@ export const getLectureById=async(req,res)=>{
         console.log(error);
         return res.status(500).json({
             message:"fail to get lecture by id",
+            success:false
+        })
+    }
+}
+
+export const togglePublishCourse =async(req,res)=>{
+    try {
+         const {courseId} =req.params;
+         const {publish}=req.query;
+         
+         const course =await Course.findById(courseId);
+         if (!courseId) {
+            return res.status(404).json({
+                message:"course not found"
+            });
+        }
+        
+        course.isPublish=publish==="true";
+
+        await course.save();
+        
+        const statusmessage=course.isPublish?"Published" :"unpublished"
+
+        return res.status(200).json({
+            message: `course is ${statusmessage}`,
+            course,
+            success:true
+        });
+
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"fail to update status",
             success:false
         })
     }

@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { useEditCourseMutation, useGetCourseByIdQuery } from '@/features/api/courseApi'
+import { useEditCourseMutation, useGetCourseByIdQuery, usePublishCourseMutation } from '@/features/api/courseApi'
 import { Loader2 } from 'lucide-react'
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -38,7 +38,9 @@ export default function CourseTab() {
 
    const navigate =useNavigate();
 
-   const {data:coursebyData,isLoading:coursebyLoading} =useGetCourseByIdQuery(courseId,{refetchOnMountOrArgChange:true});
+   const {data:coursebyData,isLoading:coursebyLoading,refetch} =useGetCourseByIdQuery(courseId,{refetchOnMountOrArgChange:true});
+
+   const [publishCourse,{}]=usePublishCourseMutation();
 
    console.log(coursebyData);
 
@@ -96,6 +98,19 @@ export default function CourseTab() {
    const course =coursebyData?.course;
    console.log(course);
 
+   const publishStatusHandler=async(action)=>{
+        try {
+            const response = await publishCourse({courseId ,query :action});
+
+            if (response?.data) {
+              refetch();
+               toast.success("successfuly publish");
+            }
+        } catch (error) {
+           console.log(error);
+        }
+   }
+
    useEffect(()=>{
       setInput({
       courseTitle:course?.courseTitle,
@@ -122,9 +137,9 @@ export default function CourseTab() {
             </CardDescription>
         </div>
         <div className='space-x-2'>
-            <Button variant="outline">
+            <Button variant="outline" disabled={coursebyData?.course.lectures.length===0} onClick={()=>publishStatusHandler(coursebyData?.course?.isPublish ? "false" :"true" )}>
                {
-                isPublish ? "UnPublish" :"Publish"
+                coursebyData?.course?.isPublish ? "UnPublish" :"Publish"
                }
             </Button>
             <Button>

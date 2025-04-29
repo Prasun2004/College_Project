@@ -75,6 +75,12 @@ export const courseApi = createApi({
                 method:"GET"
             }),
         }),
+        publishCourse: builder.mutation({
+            query:({query,courseId})=>({
+                 url:`/${courseId}?publish=${query}`,
+                 method:"PATCH"
+            }),
+        }),
     }),
 });
 
@@ -87,5 +93,6 @@ export const {
     useGetCourseLectureQuery,
     useEditLectureMutation,
     useRemoveLectureMutation,
-    useGetLectureByIdQuery
+    useGetLectureByIdQuery,
+    usePublishCourseMutation
 } =courseApi

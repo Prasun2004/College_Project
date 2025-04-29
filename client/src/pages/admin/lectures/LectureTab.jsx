@@ -36,7 +36,7 @@ export default function LectureTab() {
     useEffect(()=>{
         if (lecture) {
             setLectureTitle(lecture.lectureTitle);
-            setIsFree(lecture.ispreviewFree);
+            setIsFree(lecture.isPreviewFree);
             setUploadInfo(lecture.videoInfo);
         }
     },[lecture])
@@ -80,7 +80,7 @@ export default function LectureTab() {
 
     useEffect(()=>{
       if (isSuccess) {
-        console.log(isSuccess);
+      
         toast.success("edit successful");
       }
       if (removeisSuccess) {
