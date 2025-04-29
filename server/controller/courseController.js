@@ -228,8 +228,7 @@ export const editLecture =async(req,res)=>{
             await course.save()
         };
        
-        console.log(lecture);
-        console.log(course);
+        
         return res.status(201).json({
             message:"lecture update succfully",
             lecture,
