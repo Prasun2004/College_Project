@@ -33,6 +33,30 @@ export const createCourse =async(req,res)=>{
     }
 }
 
+export const getPublishedCourse= async(req,res)=>{
+    try {
+        const courses=await Course.find({isPublish:true}).populate({path:'creator',select:"name photoUrl"});
+        console.log(courses);
+        if (!courses) {
+            return res.status(404).json({
+                message:"course not found",
+                success:false
+            });
+        }
+        return res.status(200).json({
+            courses,
+            message:"succesfully fetch",
+            success:true
+        })
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message:"fail to get course",
+            success:false
+        })
+    }
+}
+
 export const getCreatorCourse= async (req,res)=>{
     try {
         const userId =req.id;

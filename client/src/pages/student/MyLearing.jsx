@@ -3,7 +3,7 @@ import SingleCourse from './SingleCourse';
 
 export default function MyLearing() {
     const [isLoading,setIsLoading]=useState(false);
-    const mylearing=[1,2];
+    const mylearing=[];
   return (
     <div className='max-w-xl mx-auto my-24 px-4 md:px-0'>
      <h1 className='font-bold text-2xl'>My Learing</h1>
@@ -11,9 +11,9 @@ export default function MyLearing() {
       {
         isLoading ? (
             <MyLearningSkeleton/>
-        ) : mylearing.length ===0 
+        ) : mylearing.length === 0 
         ? (<p>You are not enrollen any course</p> ) :(
-            mylearing.map((course,index)=><SingleCourse key={index}/>)
+            mylearing.map((course,index)=><SingleCourse key={index} course={course}/>)
         )
       }
      </div>

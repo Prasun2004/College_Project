@@ -1,10 +1,12 @@
 import { Skeleton } from '@/components/ui/skeleton';
 import React, { useState } from 'react'
 import SingleCourse from './SingleCourse';
+import { useGetPublishedCourseQuery } from '@/features/api/courseApi';
 
 export default function Courses() {
-    const[isLoading,setIsLoading]=useState(false);
-    const lecture=[1,2,3,4,5];
+    const {data,isLoading,isSuccess,isError}=useGetPublishedCourseQuery();
+    console.log(data);
+    if(isError) return <h1>some error come</h1>
   return (
     <div className='bg-gray-50'>
          <div className='max-w-7xl mx-auto p-6'>
@@ -16,7 +18,7 @@ export default function Courses() {
                       <CourseSkeleton key={index} />
                     ))
                   ) :(
-                    lecture.map((course,index)=><SingleCourse/>)
+                     data?.courses?.map((course,index)=><SingleCourse course={course} key={index}/>)
                   )
              }
              </div>
