@@ -36,7 +36,6 @@ export const createCourse =async(req,res)=>{
 export const getPublishedCourse= async(req,res)=>{
     try {
         const courses=await Course.find({isPublish:true}).populate({path:'creator',select:"name photoUrl"});
-        console.log(courses);
         if (!courses) {
             return res.status(404).json({
                 message:"course not found",
