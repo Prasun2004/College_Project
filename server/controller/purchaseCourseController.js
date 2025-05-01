@@ -1,8 +1,10 @@
 import Stripe from 'stripe';
 import { Course } from '../models/coursemodels.js';
 import { CoursePurchase } from '../models/purchaseCourseModels.js';
-import { Lecture } from "../models/lecture.model.js";
-import { User } from "../models/user.model.js";
+import { Lecture } from "../models/lecturemodels.js";
+import  User  from "../models/usermodels.js";
+
+
 
 
 const stripe=new Stripe(process.env.STRIPE_SECRET_KEY);
@@ -81,11 +83,17 @@ export const createCheeckoutSession =async(req,res)=>{
 
 export const stripeWebhook = async (req, res) => {
     let event;
-  
+    
+    console.log(event);
+
     try {
+
       const payloadString = JSON.stringify(req.body, null, 2);
       const secret = process.env.WEBHOOK_ENDPOINT_SECRET;
-  
+      if (!secret) {
+        console.error("❌ WEBHOOK_ENDPOINT_SECRET is not set");
+        return res.status(500).send("Webhook secret not configured");
+      }
       const header = stripe.webhooks.generateTestHeaderString({
         payload: payloadString,
         secret,
@@ -98,7 +106,8 @@ export const stripeWebhook = async (req, res) => {
     }
   
     // Handle the checkout session completed event
-    if (event.type === "checkout.session.completed") {
+    // event.type === "checkout.session.completed" orginal if condition
+    if (true) {
       console.log("check session complete is called");
   
       try {
