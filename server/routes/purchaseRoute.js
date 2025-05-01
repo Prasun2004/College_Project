@@ -1,6 +1,7 @@
 import express from 'express';
 import isAuthenticated from "../middlewares/Authinticate.js";
-import { createCheeckoutSession, stripeWebhook } from '../controller/purchaseCourseController';
+import { createCheeckoutSession, stripeWebhook } from '../controller/purchaseCourseController.js';
+
 const router=express.Router();
 
 router.route('/cheeckout/create-cheeckout-session').post(isAuthenticated,createCheeckoutSession);

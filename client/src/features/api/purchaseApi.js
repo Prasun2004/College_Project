@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const PURCHASE_API="http://localhost/purchase";
+const PURCHASE_API="http://localhost:8080/purchase";
 
 export const purchaseApi =createApi({
     reducerPath:"purchaseApi",
@@ -13,7 +13,7 @@ export const purchaseApi =createApi({
             query:(courseId)=>({
                 url:"/cheeckout/create-cheeckout-session",
                 method:"POST",
-                body:courseId
+                body:{courseId}
             })
         }),
 

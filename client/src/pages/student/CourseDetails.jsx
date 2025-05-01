@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom';
 export default function CourseDetails() {
     const params =useParams();
     const courseId =params.courseId;
-    const purchaseCourse =true;
+    const purchaseCourse =false;
   return (
     <div className='mt-20 space-y-5'>
        <div className='bg-[#2D2F31] text-white'>

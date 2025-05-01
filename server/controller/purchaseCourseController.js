@@ -1,6 +1,6 @@
 import Stripe from 'stripe';
 import { Course } from '../models/coursemodels.js';
-import { CoursePurchase } from '../models/purchaseCourseModels';
+import { CoursePurchase } from '../models/purchaseCourseModels.js';
 
 const stripe=new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -8,6 +8,7 @@ export const createCheeckoutSession =async(req,res)=>{
     try {
        const userId =req.id;
        const {courseId} =req.body;
+      
        
        const course =await Course.findById(courseId);
        if (!course) {
@@ -22,6 +23,8 @@ export const createCheeckoutSession =async(req,res)=>{
            amount:course.coursePrice,
            status:"pending"
        });
+      
+       
 
        const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
@@ -40,7 +43,7 @@ export const createCheeckoutSession =async(req,res)=>{
         ],
         mode: "payment",
         success_url: `http://localhost:5173/course-progress/${courseId}`, // once payment successful redirect to course progress page
-        cancel_url: `http://localhost:5173/course-detail/${courseId}`,
+        cancel_url: `http://localhost:5173/course-details/${courseId}`,
         metadata: {
           courseId: courseId,
           userId: userId,
@@ -49,13 +52,16 @@ export const createCheeckoutSession =async(req,res)=>{
           allowed_countries: ["IN"], // Optionally restrict allowed countries
         },
       });
+
+
   
       if (!session.url) {
         return res
           .status(400)
           .json({ success: false, message: "Error while creating session" });
       }
-  
+      
+     
       // Save the purchase record
       newPurchase.paymentId = session.id;
       await newPurchase.save();
