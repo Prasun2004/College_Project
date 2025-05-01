@@ -4,9 +4,11 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Separator } from '@/components/ui/separator';
 import { BadgeInfo, PlayCircle } from 'lucide-react'
 import React from 'react'
+import { useParams } from 'react-router-dom';
 
 export default function CourseDetails() {
-
+    const params =useParams();
+    const courseId =params.courseId;
     const purchaseCourse =true;
   return (
     <div className='mt-20 space-y-5'>
@@ -68,7 +70,7 @@ export default function CourseDetails() {
                     </Button>
                     ) : (
                         <Button className='w-full'>
-                        <BuyCourseButton/>
+                        <BuyCourseButton courseId={courseId}/>
                     </Button>
                     )
                 }

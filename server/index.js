@@ -7,6 +7,7 @@ import cors from "cors";
 import userRoute from "./routes/userRoutes.js";
 import courseRoute from "./routes/courseRoutes.js";
 import mediaRoute from "./routes/mediaRoute.js";
+import purchaseRoute from "./routes/purchaseRoute.js";
 
 dotenv.config({});
 
@@ -32,6 +33,7 @@ connectDB();
 app.use("/user",userRoute);
 app.use("/course",courseRoute);
 app.use("/media",mediaRoute);
+app.use('/purchase',purchaseRoute);
 
 app.listen(process.env.PORT,()=>{
     console.log("server start ");
