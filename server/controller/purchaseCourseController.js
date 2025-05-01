@@ -1,6 +1,9 @@
 import Stripe from 'stripe';
 import { Course } from '../models/coursemodels.js';
 import { CoursePurchase } from '../models/purchaseCourseModels.js';
+import { Lecture } from "../models/lecture.model.js";
+import { User } from "../models/user.model.js";
+
 
 const stripe=new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -143,5 +146,23 @@ export const stripeWebhook = async (req, res) => {
       }
     }
     res.status(200).send();
+  };
+
+  export const getAllPurchasedCourse = async (req, res) => {
+    try {
+      const purchasedCourse = await CoursePurchase.find({
+        status: "completed",
+      }).populate("courseId");
+      if (!purchasedCourse) {
+        return res.status(404).json({
+          purchasedCourse: [],
+        });
+      }
+      return res.status(200).json({
+        purchasedCourse,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
