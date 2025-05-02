@@ -16,8 +16,19 @@ export const purchaseApi =createApi({
                 body:{courseId}
             })
         }),
-
+        getCourseDetailsWithStatus: builder.query({
+            query:(courseId)=>({
+                url:`/course/${courseId}/details-with-status`,
+                method:"GET"
+            })
+        }),
+        getPurchaseCourse: builder.query({
+            query:()=>({
+                url:"/",
+                method:"GET"
+            })
+        }),
     })
 })
 
-export const {useCreateCheechoutSessionMutation} =purchaseApi
+export const {useCreateCheechoutSessionMutation,useGetCourseDetailsWithStatusQuery,useGetPurchaseCourseQuery} =purchaseApi

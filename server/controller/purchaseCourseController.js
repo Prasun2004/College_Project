@@ -157,6 +157,37 @@ export const stripeWebhook = async (req, res) => {
     res.status(200).send();
   };
 
+  export const getCourseDetailsPurchaseStatus =async(req,res)=>{
+      try {
+         const {courseId} =req.params;
+         const userId =req.id;
+
+         const course = await Course.findById(courseId)
+          .populate({path:"creator"})
+          .populate({ path:"lectures"});
+
+          const purchased =await CoursePurchase.findOne({userId,courseId});
+          console.log(course,purchased);
+          if (!course) {
+              return res.status(404).json({
+                message:"course not found for this id"
+              })
+          };
+
+          return res.status(200).json({
+             course,
+             purchased: !!purchased , // true if purchsed other false
+             message:"course found successfully"
+          });
+
+      } catch (error) {
+         console.log(error);
+         return res.status(500).json({
+           message:"course not found"
+         })
+      }
+  }
+
   export const getAllPurchasedCourse = async (req, res) => {
     try {
       const purchasedCourse = await CoursePurchase.find({
@@ -165,10 +196,12 @@ export const stripeWebhook = async (req, res) => {
       if (!purchasedCourse) {
         return res.status(404).json({
           purchasedCourse: [],
+          message:"not course purchased"
         });
       }
       return res.status(200).json({
         purchasedCourse,
+        message:"purchse course get successfully"
       });
     } catch (error) {
       console.log(error);
