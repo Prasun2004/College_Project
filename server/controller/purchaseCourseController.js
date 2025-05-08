@@ -84,8 +84,7 @@ export const createCheeckoutSession =async(req,res)=>{
 export const stripeWebhook = async (req, res) => {
     let event;
     
-    console.log(event);
-
+   
     try {
 
       const payloadString = JSON.stringify(req.body, null, 2);
@@ -167,7 +166,7 @@ export const stripeWebhook = async (req, res) => {
           .populate({ path:"lectures"});
 
           const purchased =await CoursePurchase.findOne({userId,courseId});
-          console.log(course,purchased);
+        
           if (!course) {
               return res.status(404).json({
                 message:"course not found for this id"

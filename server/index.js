@@ -8,6 +8,7 @@ import userRoute from "./routes/userRoutes.js";
 import courseRoute from "./routes/courseRoutes.js";
 import mediaRoute from "./routes/mediaRoute.js";
 import purchaseRoute from "./routes/purchaseRoute.js";
+import courseProgressRoute from "./routes/courseProgressRoute.js";
 
 dotenv.config({});
 
@@ -34,6 +35,7 @@ app.use("/user",userRoute);
 app.use("/course",courseRoute);
 app.use("/media",mediaRoute);
 app.use('/purchase',purchaseRoute);
+app.use("/progress",courseProgressRoute);
 
 app.listen(process.env.PORT,()=>{
     console.log("server start ");
